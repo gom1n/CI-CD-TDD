@@ -19,6 +19,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack(alignment: .center) {
+            // 입력
             HStack {
                 ForEach(inputResult.indices, id: \.self) { index in
                     Button(inputResult[index]) {
@@ -49,9 +50,9 @@ struct ContentView: View {
                 }
             }
             .padding()
-            
+            // 확인 버튼
             Button("확인하기") {
-                if inputResult.firstIndex(of: "?") == nil {                
+                if inputResult.firstIndex(of: "?") == nil {
                     checkNum()
                 }
             }
@@ -60,8 +61,7 @@ struct ContentView: View {
             .buttonStyle(.bordered)
             .cornerRadius(10)
             .padding()
-
-            
+            // 결과 출력
             HStack {
                 ForEach(printResult, id: \.self) { result in
                     Text(result)
@@ -70,7 +70,7 @@ struct ContentView: View {
                 }
             }
             .padding(EdgeInsets(top: 0, leading: 0, bottom: 30, trailing: 0))
-            
+            // 이전 결과 리스트
             List(resultList) { result in
                 HStack {
                     Text(result.id)
