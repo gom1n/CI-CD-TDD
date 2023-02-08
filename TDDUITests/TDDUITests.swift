@@ -28,7 +28,7 @@ final class TDDUITests: XCTestCase {
         let btnInput = app.buttons.firstMatch
         XCTAssertTrue(btnInput.exists)
         btnInput.tap() // 버튼 클릭
-        // sheet가 열린 후 숫자 버튼들이 나오는지 확인
+        // sheet가 열려서 숫자 버튼들이 나오는지 확인
         let btnNum = app.buttons["0"]
         XCTAssertTrue(btnNum.exists, "숫자 버튼이 존재하지 않습니다")
     }
@@ -42,7 +42,7 @@ final class TDDUITests: XCTestCase {
         let btnInput = app.buttons.firstMatch
         XCTAssertTrue(btnInput.exists)
         btnInput.tap() // 버튼 클릭
-        // sheet가 열린 후 숫자 버튼들이 나오는지 확인
+        // sheet가 열려서 숫자 버튼들이 나오는지 확인
         let btnZero = app.buttons["0"]
         XCTAssertTrue(btnZero.exists, "숫자 버튼이 존재하지 않습니다")
         btnZero.tap() // sheet에서 숫자 클릭
