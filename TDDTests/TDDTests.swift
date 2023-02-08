@@ -9,21 +9,61 @@ import XCTest
 @testable import TDD
 
 final class TDDTests: XCTestCase {
-
+    private var bullAndCows:BullsandCows!
+    
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        bullAndCows = BullsandCows()
+        super.setUp()
     }
 
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        bullAndCows = nil
+        super.tearDown()
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    // SSS일 경우
+    func testSSS() throws {
+        // given, 값 설정
+        bullAndCows.inputAnswer("123")
+        bullAndCows.checkResult(["1", "2", "3"])
+        // when, 테스트 코드 실행
+        let result = bullAndCows.printScore()
+        // then, 예상 결과 확인
+        XCTAssertEqual(result, "S S S", "정답이 아닙니다")
+    }
+    
+    // OOO일 경우
+    func testOOO() throws {
+        // given, 값 설정
+        bullAndCows.inputAnswer("000")
+        bullAndCows.checkResult(["1", "2", "3"])
+        // when, 테스트 코드 실행
+        let result = bullAndCows.printScore()
+        // then, 예상 결과 확인
+        XCTAssertEqual(result, "O O O", "정답이 아닙니다")
+    }
+    
+    // BBB일 경우
+    func testBBB() throws {
+        // given, 값 설정
+        bullAndCows.inputAnswer("312")
+        bullAndCows.checkResult(["1", "2", "3"])
+        // when, 테스트 코드 실행
+        let result = bullAndCows.printScore()
+        // then, 예상 결과 확인
+        XCTAssertEqual(result, "B B B", "정답이 아닙니다")
+    }
+    
+    // SOS일 경우
+    func testSOS() throws {
+        // given, 값 설정
+        bullAndCows.inputAnswer("103")
+        bullAndCows.checkResult(["1", "2", "3"])
+        // when, 테스트 코드 실행
+        let result = bullAndCows.printScore()
+        // then, 예상 결과 확인
+        XCTAssertEqual(result, "S O S", "정답이 아닙니다")
     }
 
     func testPerformanceExample() throws {
