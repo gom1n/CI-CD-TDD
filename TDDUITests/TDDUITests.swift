@@ -8,15 +8,13 @@
 import XCTest
 
 final class TDDUITests: XCTestCase {
-    // Test UIApplication
-    let app = XCUIApplication()
-    
-    
+    // 초기화 및 세팅
     override func setUpWithError() throws {
         try super.setUpWithError()
+        // 테스트 실패 발생 시, 계속하여 실행할지
         continueAfterFailure = false
     }
-
+    // CleanUp
     override func tearDownWithError() throws {
         try super.tearDownWithError()
     }
@@ -53,6 +51,7 @@ final class TDDUITests: XCTestCase {
         XCTAssertNotEqual(btnInput, btnMark, "?가 숫자로 변경되지 않았습니다")
     }
 
+    // 성능 체크용
     func testLaunchPerformance() throws {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
             measure(metrics: [XCTApplicationLaunchMetric()]) {
