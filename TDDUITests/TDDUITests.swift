@@ -50,7 +50,39 @@ final class TDDUITests: XCTestCase {
         let btnMark = app.buttons["?"]
         XCTAssertNotEqual(btnInput, btnMark, "?가 숫자로 변경되지 않았습니다")
     }
-
+    
+    // 숫자 입력 후 중복된 숫자이면 Alert을 띄우는가
+    func testClickSheetAfterCheckOverlap() throws {
+        // 테스트 앱 실행
+        let app = XCUIApplication()
+        app.launch()
+        // 숫자 입력 버튼 탭
+        let btnInput0 = app.buttons.element(boundBy: 0)
+        XCTAssertTrue(btnInput0.exists)
+        btnInput0.tap()
+         
+        // sheet가 열려서 숫자 버튼들이 나오는지 확인
+        let btnZero0 = app.buttons["keypad0"]
+        XCTAssertTrue(btnZero0.exists, "숫자 버튼이 존재하지 않습니다")
+        btnZero0.tap() // sheet에서 숫자 0 클릭
+           
+        // 숫자 입력 버튼 탭
+        let btnInput1 = app.buttons.element(boundBy: 1)
+        XCTAssertTrue(btnInput1.exists)
+        btnInput1.tap()
+             
+        // sheet가 열려서 숫자 버튼들이 나오는지 확인
+        let btnZero1 = app.buttons["keypad0"]
+        XCTAssertTrue(btnZero1.exists, "숫자 버튼이 존재하지 않습니다")
+        btnZero1.tap() // sheet에서 숫자 0 클릭
+             
+        // 중복된 숫자인 경우 Alert 표시 확인
+        XCTAssertTrue(app.alerts["알림"].exists)
+            
+        // 확인 버튼 탭하여 Alert 닫기
+        app.alerts.buttons["확인"].tap()
+    }
+    
     // 성능 체크용
     func testLaunchPerformance() throws {
         if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
