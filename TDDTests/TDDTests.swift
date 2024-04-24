@@ -8,7 +8,7 @@
 import XCTest
 @testable import TDD
 
-final class TDDTests: XCTestCase {
+final class TDDTests: XCTestCase { 
     // 숫자야구 게임 작동을 위한 메인 클래스
     private var bullAndCows:BullsandCows!
     
