@@ -15,6 +15,8 @@ struct ContentView: View {
     @State private var isEnd = false
     @State private var selectNum = 0
     @State private var resultList:[ResultData] = [ResultData(id: String(0), inputData: "없음", resultData: "없음")]
+    @State var showingAlert: Bool = false
+    
     private var numList = [Int](0...9)
     private var columns:[GridItem] = Array(repeating: .init(), count: 2)
     private let bullAndCows = BullsandCows()
@@ -40,9 +42,18 @@ struct ContentView: View {
                         LazyVGrid(columns: columns) {
                             ForEach(numList, id: \.self) { num in
                                 Button(String(num)) {
-                                    inputResult[selectNum] = String(num)
-                                    isOpen = false
+                                    if inputResult.contains(String(num)) {
+                                        self.showingAlert.toggle()
+                                    } else {
+                                        inputResult[selectNum] = String(num)
+                                        isOpen = false
+                                    }
                                 }
+                                .alert(isPresented: $showingAlert) {
+                                    Alert(title: Text("알림"), message: Text("중복된 숫자는 입력할 수 없습니다."),
+                                                      dismissButton: .default(Text("확인")))
+                                }
+                                .accessibilityIdentifier("keypad\(num)")
                                 .font(.system(size: 45, weight: .bold))
                                 .foregroundColor(.black)
                                 .padding(9)

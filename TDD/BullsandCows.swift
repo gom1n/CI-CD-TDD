@@ -31,10 +31,13 @@ class BullsandCows {
     func makeAnswer() {
         // 정답 리셋
         answer.removeAll()
-        // 랜덤한 정답 생성
-        for _ in 0..<3 {
+        // 중복을 제외한 랜덤한 정답 생성
+        while answer.count < 3 {
             let randomNum = Int.random(in: 0...9)
-            answer.append(String(randomNum))
+            let numString = String(randomNum)
+            if !answer.contains(numString) {
+                answer.append(numString)
+            }
         }
     }
     
