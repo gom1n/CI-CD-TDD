@@ -1,0 +1,69 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "TestCode를 실행합니다."
+  lane :tests do
+    # 테스트 실행
+    result = run_tests(project: "TDD.xcodeproj", scheme: "TDD")
+
+    # 테스트 결과 가져오기
+    test_result = result[:tests] || "테스트 결과 없음"
+
+    # Teams에 보낼 메시지 생성
+    teams_message = "테스트 결과: #{test_result}"
+
+    # Teams에 알림 보내기
+    send_teams_message(message: teams_message)
+  end
+
+  def send_teams_message(message:)
+    require 'net/http'
+
+    uri = URI.parse('https://kebtcokr.webhook.office.com/webhookb2/5740a509-99c2-4f1d-9158-ffa123d26bd1@56562163-e302-48ef-81c6-2f9f794dfb08/IncomingWebhook/9db80063af3c4655aadad53c36276d8b/b22414ee-ae50-45af-9c94-d63236d686d2')
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+
+    request = Net::HTTP::Post.new(uri.request_uri)
+    request['Content-Type'] = 'application/json'
+
+    request.body = {
+      "title" => 'Test Completed - CryptoKona',
+      "summary" => 'Test files run by Fastlane ',
+      "text" => message,
+      "activityTitle" => 'Test Completed',
+      "activitySubtitle" => 'Working on Fastlane',
+      "activityImage" => 'https://seeklogo.com/images/F/fastlane-logo-6CA0B0B428-seeklogo.com.png',
+      "themeColor" => '321244',
+      "useMarkdown" => true
+    }.to_json
+
+    response = http.request(request)
+    puts "Teams에 메시지 전송 결과: #{response.body}"
+  end
+
+  # 임시
+  desc "TestFlight에 앱을 업로드합니다."
+  lane :tf do
+    build_app(workspace: "CryptoX.xcworkspace", scheme: "CryptoX_Mainnet", export_method: "ad-hoc")
+    #increment_build_number(build_number: latest_testflight_build_number + 1)
+    upload_to_testflight
+
+    send_teams_message(message: teams_message)
+
+  end
+end
