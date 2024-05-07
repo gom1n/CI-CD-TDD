@@ -1,3 +1,6 @@
+
+
+
 # This file contains the fastlane.tools configuration
 # You can find the documentation at https://docs.fastlane.tools
 #
@@ -19,7 +22,8 @@ platform :ios do
   desc "TestCode를 실행합니다."
   lane :tests do
     # 테스트 실행
-    result = run_tests(project: "TDD.xcodeproj", scheme: "TDD")
+    result = run_tests(project: "TDD.xcodeproj", scheme: "TDD", output_directory: "./fastlane/test_output",
+  output_types: "html", output_files: "report.html", xcodebuild_formatter: "xcpretty")
 
     # 테스트 결과 가져오기
     test_result = result[:tests] || "테스트 결과 없음"
@@ -56,14 +60,4 @@ platform :ios do
     puts "Teams에 메시지 전송 결과: #{response.body}"
   end
 
-  # 임시
-  desc "TestFlight에 앱을 업로드합니다."
-  lane :tf do
-    build_app(workspace: "CryptoX.xcworkspace", scheme: "CryptoX_Mainnet", export_method: "ad-hoc")
-    #increment_build_number(build_number: latest_testflight_build_number + 1)
-    upload_to_testflight
-
-    send_teams_message(message: teams_message)
-
-  end
 end
